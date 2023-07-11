@@ -1,0 +1,43 @@
+(cnpj as text) as text =>
+
+let
+    Personalizar = if Text.Length(cnpj) = 14 then cnpj else null,
+    baseCnpj = Text.Start(Personalizar, 8),
+    mesclado = Text.Combine({baseCnpj,"0001"}),
+    formula = Number.FromText(Text.Range(mesclado,0,1)) * 6,
+    formula1 = Number.FromText(Text.Range(mesclado,1,1)) * 7,
+    formula2 = Number.FromText(Text.Range(mesclado,2,1)) * 8,
+    formula3 = Number.FromText(Text.Range(mesclado,3,1)) * 9,
+    formula4 = Number.FromText(Text.Range(mesclado,4,1)) * 2,
+    formula5 = Number.FromText(Text.Range(mesclado,5,1)) * 3,
+    formula6 = Number.FromText(Text.Range(mesclado,6,1)) * 4,
+    formula7 = Number.FromText(Text.Range(mesclado,7,1)) * 5,
+    formula8 = Number.FromText(Text.Range(mesclado,8,1)) * 6,
+    formula9 = Number.FromText(Text.Range(mesclado,9,1)) * 7,
+    formula10 = Number.FromText(Text.Range(mesclado,10,1)) * 8,
+    formula11 = Number.FromText(Text.Range(mesclado,11,1)) * 9,
+
+    primeiraEtapa = Number.Mod((formula + formula1 + formula2 + formula3 + formula4 + formula5 + formula6 + formula7 + formula8 + formula9 + formula10 + formula11),11),
+    final = if primeiraEtapa = 10 then 0 else primeiraEtapa,
+    primeiroDigito = Text.Combine({mesclado,Text.From(final)}),
+
+    form = Number.FromText(Text.Range(primeiroDigito,0,1)) * 5,
+    form1 = Number.FromText(Text.Range(primeiroDigito,1,1)) * 6,
+    form2 = Number.FromText(Text.Range(primeiroDigito,2,1)) * 7,
+    form3 = Number.FromText(Text.Range(primeiroDigito,3,1)) * 8,
+    form4 = Number.FromText(Text.Range(primeiroDigito,4,1)) * 9,
+    form5 = Number.FromText(Text.Range(primeiroDigito,5,1)) * 2,
+    form6 = Number.FromText(Text.Range(primeiroDigito,6,1)) * 3,
+    form7 = Number.FromText(Text.Range(primeiroDigito,7,1)) * 4,
+    form8 = Number.FromText(Text.Range(primeiroDigito,8,1)) * 5,
+    form9 = Number.FromText(Text.Range(primeiroDigito,9,1)) * 6,
+    form10 = Number.FromText(Text.Range(primeiroDigito,10,1)) * 7,
+    form11 = Number.FromText(Text.Range(primeiroDigito,11,1)) * 8,
+    form12 = Number.FromText(Text.Range(primeiroDigito,12,1)) * 9,
+
+    segundaEtapa = Number.Mod((form + form1 + form2 + form3 + form4 + form5 + form6 + form7 + form8 + form9 + form10 + form11 + form12),11),
+    final1 = if segundaEtapa = 10 then 0 else segundaEtapa,
+    segundoDigito = Text.Combine({primeiroDigito,Text.From(final1)})
+
+in
+    segundoDigito
